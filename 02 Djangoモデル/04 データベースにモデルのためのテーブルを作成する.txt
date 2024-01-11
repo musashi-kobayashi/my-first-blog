@@ -1,0 +1,7 @@
+最後のステップは新しいモデルをデータベースに追加することです。 まず、モデルに少し変更があったこと（今作ったこと）をDjangoに知らせましょう。 コンソールで python manage.py makemigrations blog とタイプします。 こんな感じですね。
+
+python manage.py makemigrations blog
+
+Djangoが作ってくれた移行ファイルを私たちがデータベースに追加すれば完了です。python manage.py migrate blog とタイプするとこうなるでしょう
+
+python manage.py migrate blog

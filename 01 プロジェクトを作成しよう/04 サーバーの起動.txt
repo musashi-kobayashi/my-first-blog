@@ -1,0 +1,6 @@
+コマンドラインやコマンドプロンプトでmanage.pyファイルを含むディレクトリ（djangogirlsディレクトリ）に移動してください。 python manage.py runserverを実行してWebサーバーを起動できます。
+
+python manage.py runserver
+
+Windows上で、UnicodeDecodeErrorで失敗した場合は、代わりに次のコマンドを使用します
+python manage.py runserver 0:8000
