@@ -1,0 +1,45 @@
+ロゴをクリックしてメインのPythonAnywhere Dashboardに戻り、「Bash」コンソールを起動するボタンをクリックします。これはPythonAnywhereバージョンのコマンドラインで、ちょうどあなたのコンピューターのコマンドラインと同じようなものです。
+
+PythonAnywhereにWebアプリケーションをデプロイするには、コードをGitHubからプルし、PythonAnywhereがそれを認識してWebアプリケーションのサーバを動かし始めるように設定する必要があります。 それを手動で行う方法もありますが、PythonAnywhereはそれをすべて行うヘルパーツールを提供しています。 まず、インストールしてみましょう。
+
+pip3.6 install --user pythonanywhere
+
+Collecting pythonanywhere のようなメッセージがいくつか出力され、最終的にSuccessfully installed (...) pythonanywhere- (...)という行で終わると思います。
+
+GitHub からアプリを自動的に構成するためのヘルパーを実行します。 PythonAnywhereのコンソールに次のように入力します（GitHubからクローンするときのURLと一致するように、<your-github-username>の代わりにご自身のGitHubユーザー名を使用することを忘れないでください）：
+PythonAnywhere command-line/
+pa_autoconfigure_django.py --python=3.6 https://github.com/<your-github-username>/my-first-blog.git
+
+実行しているところを見れば、何をしているのかわかるでしょう。
+-GitHubからコードをダウンロードする
+-ちょうどあなたのPC上でやったように、PythonAnywhere上に仮想環境 を作成する
+-一部のデプロイメント設定で設定ファイルを更新する
+-manage.py migrateコマンドを使ってPythonAnywhere上のデータベースをセットアップする
+-静的ファイルの設定（これについては後で学習します）
+-APIを通じてPythonAnywhereがあなたのWebアプリケーションを提供するように設定する
+
+PythonAnywhereではこれらすべてのステップは自動化されていますが、他のサーバープロバイダーでは同じ手順を自分で実行しなければなりません。
+
+今注目すべき重要な点は、PythonAnywhere上のデータベースが、自分のPC上のデータベースとはまったく別物であることです。つまり、異なる投稿と管理者アカウントを持つことができます。 その結果、自分のコンピュータで行ったように、createsuperuserで管理者アカウントを初期化する必要があります。 PythonAnywhereがあなたの代わりに仮想環境を自動的に起動したので、あなたがする必要があるのは以下の通りです：
+
+PythonAnywhere command-line/
+python manage.py createsuperuser
+
+管理者の詳細を入力します。 PythonAnywhere上のパスワードをより安全にしたい場合を除き、混乱を避けるために自分のコンピュータで使用しているのと同じものを使用することをお勧めします。
+
+PythonAnywhereのコードをlsを使って見てみることもできます：
+PythonAnywhere command-line/
+ls
+blog  db.sqlite3  manage.py  mysite requirements.txt static
+
+ls blog/
+__init__.py  __pycache__  admin.py  apps.py  migrations  models.py
+tests.py  views.py
+
+また、Filesページに移動し、PythonAnywhereに組み込まれているファイルブラウザを使用して閲覧することもできます。 (ConsoleページからPythonAnywhereの他のページには、右上のメニューボタンからいけます。 一度いずれかのページに移動したら、他ページへのリンクは上部にあります。)
+
+
+
+
+
+

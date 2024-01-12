@@ -28,4 +28,7 @@ git add コマンドを実行する前や、どのような変更を加えたか
 git status
 
 最後に、変更内容を保存します。コンソールに移動し、これらのコマンドを実行します。
-git add --all .
+git add --all 
+git commit -m "My Django Girls app, first commit"
+
+

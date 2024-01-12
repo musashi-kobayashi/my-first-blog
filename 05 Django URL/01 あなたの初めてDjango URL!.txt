@@ -1,0 +1,18 @@
+さあ最初のURLを作りましょう！'http://127.0.0.1:8000/' をブログの入口ページにして、投稿したブログポストのリストを表示するようにしたいと思います。
+
+mysite/urls.py ファイルは簡潔なままにしておきたいので、mysite/urls.py ではblog アプリからURLをインポートするだけにしましょう。
+
+まず、blog.urls をインポートする行を追加しましょう。 ここで、include関数を使いたいので、from django.urls…の行を変更し、そのインポートを追加する必要があります。
+
+mysite/urls.py ファイルはこのようになります：
+
+mysite/urls.py
+from django.contrib import admin
+from django.urls import path, include
+
+urlpatterns = [
+    path('admin/', admin.site.urls),
+    path('', include('blog.urls')),
+]
+
+これでDjangoは'http://127.0.0.1:8000/' に来たリクエストは blog.urls へリダイレクトするようになり、それ以降はそちらを参照するようになります。
