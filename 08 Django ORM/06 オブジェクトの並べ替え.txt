@@ -1,0 +1,11 @@
+クエリセットは、オブジェクトのリストの並べ替えもやってくれます。試しに created_date フィールドで並べ替えてみましょう。
+
+command-line
+>>> Post.objects.order_by('created_date')
+<QuerySet [<Post: Sample title>, <Post: Post number 2>, <Post: My 3rd post!>, <Post: 4th title of post>]>
+逆順、つまり新しく追加した順に並べ替えることも出来ます。それには、-（ハイフン）を使います。
+
+command-line
+>>> Post.objects.order_by('-created_date')
+<QuerySet [<Post: 4th title of post>,  <Post: My 3rd post!>, <Post: Post number 2>, <Post: Sample title>]>
+

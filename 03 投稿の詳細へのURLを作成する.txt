@@ -1,0 +1,22 @@
+post_detail ビュー用にurls.pyにURLを作成しましょう！
+
+最初の投稿の詳細がこのURLで表示されるようにします：http://127.0.0.1:8000/post/1/
+
+投稿の内容を表示するpost_detailというビューをDjangoに示すように、blog/urls.pyファイルでURLを作りましょう。 blog/urls.pyをエディタで開いて、path('post/<int:pk>/', views.post_detail, name='post_detail'),という行を追加しましょう。ファイルは次のようになるでしょう。
+
+ blog/urls.py
+from django.urls import path
+from . import views
+
+urlpatterns = [
+    path('', views.post_list, name='post_list'),
+    path('post/<int:pk>/', views.post_detail, name='post_detail'),
+]
+post/<int:pk>/ の部分はURLパターンを指定しています。それについて説明しましょう:
+
+- post/ はURLが post に続けて / で始まることを意味します。ここまでは順調ですね。
+- <int:pk> – この部分はトリッキーです。これはDjangoは整数の値を期待し、その値がpkという名前の変数でビューに渡されることを意味しています。
+- / – それからURLの最後に再び / が必要です。
+つまり、ブラウザにhttp://127.0.0.1:8000/post/5/を入力すると、Djangoはpost_detailというビューを探していると理解します。そしてpkが5という情報をそのビューに転送します。
+
+よし、私たちは blog/urls.py に新しい URL パターンを追加しました！ ページを更新しましょう：http://127.0.0.1:8000/ ドーン！ サーバーが再び実行を停止しました。 コンソールを見てください - 予想通り、もう一つのエラーがあります！

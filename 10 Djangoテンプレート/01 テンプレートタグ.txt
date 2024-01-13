@@ -1,0 +1,45 @@
+テンプレートタグとは？
+HTML中で本当はPythonのコードを書くことはできません。なぜならブラウザが理解できないからです。ブラウザはHTMLだけ分かります。HTMLはどちらかというと静的で、それに対してPythonはもっとずっと動的なことを私たちは知っています。
+
+Djangoテンプレートタグ はHTMLにPyhtonのようなコードを埋め込むことができて、動的なウェブサイトがより早く簡単に作れます!
+
+ブログ一覧テンプレートの表示
+前の章で、posts 変数でテンプレートに記事のリストを渡しました。今からHTMLで表示をしてみましょう。
+
+Djangoテンプレートで変数を表示するためには、次のように変数の名前を二重中括弧で括ります。
+
+blog/templates/blog/post_list.html
+{{ posts }}
+これを blog/templates/blog/post_list.html テンプレートでやってみましょう。 エディタでこのファイルを開き、2つめの <div> から3つめの </div> までをまるごと {{ posts }} に置き換えて下さい。 ファイルを保存してページをリロードすると：
+
+見たとおり、このようになります。
+
+blog/templates/blog/post_list.html
+<QuerySet [<Post: My second post>, <Post: My first post>]>
+
+Djangoはposts変数をオブジェクトのリストと認識します。 Python入門でどうやってリストを表示できたか覚えていますか？ ループを使ってリストを表示しましたよね。 Djangoテンプレートではこう書きます：
+
+blog/templates/blog/post_list.html
+{% for post in posts %}
+    {{ post }}
+{% endfor %}
+これをブログのテンプレートで使ってみましょう。
+
+動きましたね。 しかし、本当はHTML入門で作った静的な記事のように表示してほしいところです。 そこで、HTMLとテンプレートタグを混ぜてみましょう。 body タグの中を次のように書いてください：
+
+blog/templates/blog/post_list.html
+<div>
+    <h1><a href="/">Django Girls Blog</a></h1>
+</div>
+
+{% for post in posts %}
+    <div>
+        <p>published: {{ post.published_date }}</p>
+        <h2><a href="">{{ post.title }}</a></h2>
+        <p>{{ post.text|linebreaksbr }}</p>
+    </div>
+{% endfor %}
+
+{% for %} と {% endfor %} の間に書いたものはリスト中の各オブジェクトの分だけ繰り返されます。ページをリロードしてみましょう。
+
+post変数がさっきと違って、{{ post.title }} や {{ post.text }} になっていることに気づきましたか？ Post モデルで定義したそれぞれのフィールドにアクセスしています。 |linebreaksbr はpostのテキスト中の改行を段落に変換するフィルタに通すという意味です

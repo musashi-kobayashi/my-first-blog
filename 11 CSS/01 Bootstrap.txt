@@ -1,0 +1,14 @@
+Bootstrapを使いましょう！
+Bootstrap は美しいWebサイトを開発するためのHTMLとCSSのフレームワークとしてとても有名です: http://getbootstrap.com/
+
+これは、もともとTwitterのプログラマーが作成したもので、今は、世界中の有志のボランティアで開発されています。
+
+Bootstrapのインストール
+Bootstrap をインストールするため、.html ファイル (blog/templates/blog/post_list.html) をコードエディタで開き <head> の中にこれを追加しましょう:
+
+blog/templates/blog/post_list.html
+<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
+これは、あなたのプロジェクトにファイルを追加しているわけではありません。インターネット上にあるファイルを指しているだけです。では、Webサイトを開いてページを再読み込みしてください。
+これだけでずいぶん見た目が良くなりましたね！
+

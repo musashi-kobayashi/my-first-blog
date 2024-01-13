@@ -26,8 +26,10 @@ $ git commit -m "Changed the HTML for the site."
 
 command-line
 $ git push
+
 新しいコードをPythonAnywhereにpullして、自分のウェブアプリを再度実行させる
 PythonAnywhereのコンソールページを開き、Bash コンソールに移動してください (または新たなBash コンソールを開始してください)。それから次を実行してください。
+
 PythonAnywhere command-line
 $ cd ~/<your-pythonanywhere-domain>.pythonanywhere.com
 $ git pull

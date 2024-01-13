@@ -1,0 +1,32 @@
+データベースに、新しいPostを作成するには、次のようにします。
+
+command-line
+>>> Post.objects.create(author=me, title='Sample title', text='Test')
+いい感じなのですが、1つだけマズイことをしているんです。author に me を渡していますが、これは User モデルのインスタンスでないといけませんよね。それは、どうやればいいと思います？
+
+そうです、さっきと同じです。Userモデルも先にインポートしておきましょう。
+
+command-line
+>>> from django.contrib.auth.models import User
+どんなユーザが、データベースに登録されてましたっけ？覗いてみましょうか。
+
+command-line
+>>> User.objects.all()
+<QuerySet [<User: admin>]>
+作成しておいたスーパーユーザがいますね。このユーザを取り出してみましょう（この行をご自身で作ったスーパーユーザのユーザ名に変更して取り出してくださいね）。
+
+command-line
+>>> me = User.objects.get(username='admin')
+ola という ユーザ名 の User モデルのインスタンスを、取り出せ たでしょう？よかった！
+
+さあ、遂にコンソール画面から、最初のポストを作成出来ますね。
+
+command-line
+>>> Post.objects.create(author=me, title='Sample title', text='Test')
+<Post: Sample title>
+どうでしょうか？ちゃんと出来ているか、確認しておきましょうね。
+
+command-line
+>>> Post.objects.all()
+<QuerySet [<Post: my post title>, <Post: another post title>, <Post: Sample title>]>
+出来ていますね！リストに新しいポストが1つ追加されています。

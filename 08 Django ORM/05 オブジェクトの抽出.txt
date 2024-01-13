@@ -1,0 +1,36 @@
+クエリセットの大部分は、抽出機能だと言えるでしょう。 ユーザolaさんのポストを全部確認してみましょうか。 全部のポストを取り出すのではなく、olaさんのポストだけを取り出したい場合は、Post.objects.all() の all を filter に変更します。 取り出されるブログポストが満たす条件を、カッコ()の中に指定します。 今回の例では、author が me と等しいという条件です。 Djangoでの表し方は、author=me となります。 このようになりますね。
+
+command-line
+Post.objects.filter(author=me)
+<QuerySet [<Post: Sample title>, <Post: Post number 2>, <Post: My 3rd post!>, <Post: 4th title of post>]>
+
+もしかすると title フィールドに title という単語が含まれているポストだけを取り出したくなるかもしれませんね。
+
+
+
+command-line
+>>> Post.objects.filter(title__contains='title')
+<QuerySet [<Post: Sample title>, <Post: 4th title of post>]>
+
+また、公開済みの全ポストを取り出すことも出来ます。それには、published_date が現在以前の全ポストを取り出します。
+
+command-line
+>>> from django.utils import timezone
+>>> Post.objects.filter(published_date__lte=timezone.now())
+<QuerySet []>
+
+そうでした、残念なことに、コンソールから追加したポストはまだ公開されていませんね。じゃあ、ポストを公開してみるとしましょう。まず公開するポストを決めましょう。
+
+command-line
+>>> post = Post.objects.get(title="Sample title")
+
+そして、publish メソッドを呼び出します。
+
+command-line
+>>> post.publish()
+じゃあ、もう一度公開済みのポストを取り出しましょう。(上方向キーを3回押せば、さっきのコマンドを呼び出せるでしょう。コマンドを表示出来たら、Enter キーを押してみましょう)
+
+command-line
+>>> Post.objects.filter(published_date__lte=timezone.now())
+<QuerySet [<Post: Sample title>]>
+

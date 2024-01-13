@@ -1,0 +1,32 @@
+今回はビューに追加のパラメータpkが与えられます。 私たちのビューはそれを受け取る必要がありますね？ そこで関数をdef post_detail(request, pk):として定義します。 urlsで指定した名前（pk）とまったく同じ名前を使用する必要があることに注意してください。 この変数を省略するのは正しくないのでエラーになってしまいます！
+
+今、私たちは1つだけブログ投稿を取得したいと考えています。 これを行うには、次のようなクエリセットが使用できます。
+
+ blog/views.py
+Post.objects.get(pk=pk)
+
+しかし、このコードには問題があります。 与えられたプライマリキー（pk）を持つPostが存在しない場合、とてもダサいエラーが発生します。
+
+私たちはそれを望んでいません！ しかし幸運にもDjangoにはそれを処理するものがあります：get_object_or_404 です。 与えられたpkのPostがない場合、前よりもっとよい Page Not Found 404 ページが表示されます。
+
+いい知らせとして実際には自分のPage not foundページを作って自分の好きなようにきれいにすることができます。しかしそれは今すごく重要ではないので、私たちはそれをスキップします。
+
+よし、今こそビューをviews.pyファイルに追加するときです！
+
+blog/urls.pyではviews.post_detailというビューを参照するpost_detailという名前のURLルールを作成しました。 これは、Djangoがblog/views.py内のpost_detailというビュー関数を待っていることを意味します。
+
+blog/views.pyをコードエディタで開き、他のfrom行の近くに次のコードを追加する必要があります。
+
+blog/views.py
+from django.shortcuts import render, get_object_or_404
+ファイルの最後にビューを追加します：
+
+blog/views.py
+def post_detail(request, pk):
+    post = get_object_or_404(Post, pk=pk)
+    return render(request, 'blog/post_detail.html', {'post': post})
+ページを更新してみましょう：http://127.0.0.1:8000/
+
+出来ましたね！ しかし、ブログ投稿のタイトルのリンクをクリックするとどうなりますか？
+
+あらいやだ！ 別のエラー！ しかし、私たちはすでにそれに対処する方法をすでに知っていますね。 そう！テンプレートを追加する必要があります！

@@ -1,0 +1,23 @@
+blog/templates/blogにpost_detail.htmlというファイルを作成し、コードエディタで開きます。
+
+こんな感じですね。
+
+blog/templates/blog/post_detail.html
+{% extends 'blog/base.html' %}
+
+{% block content %}
+    <div class="post">
+        {% if post.published_date %}
+            <div class="date">
+                {{ post.published_date }}
+            </div>
+        {% endif %}
+        <h2>{{ post.title }}</h2>
+        <p>{{ post.text|linebreaksbr }}</p>
+    </div>
+{% endblock %}
+もう一度base.htmlを拡張します。 contentブロックでは、投稿の公開日（存在する場合）、タイトル、およびテキストを表示します。 ここで重要なポイントについて見てみます。
+
+{% if ... %} ... {％endif％}は、何かをチェックしたいときに使用できるテンプレートタグです。 (if ... else...をPython入門のチャプターでやったのを覚えていますか？) この場合、投稿のpublished_date（公開日）が空でないかを確認します。
+
+これで、ページを更新してTemplateDoesNotExistがもうなくなったかどうか確認できます。

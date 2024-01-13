@@ -1,0 +1,11 @@
+Django shell
+コンソール画面を開いて（PythonAnywhereのコンソールではないですよ）、次のコマンドを入力してみましょう。
+
+command-line
+(myvenv) ~/djangogirls$ python manage.py shell
+次のような表示に切り替わるでしょう。
+
+command-line
+(InteractiveConsole)
+>>>
+今、Djangoのインタラクティブコンソールが起動しています。Pythonプロンプトのようにだけ見えますが、ちゃんとDjangoも動いています :) このコンソール画面では、Pythonのコマンドは何でも使えます。

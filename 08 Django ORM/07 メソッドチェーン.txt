@@ -1,0 +1,11 @@
+ご覧のように、Post.objectsの一部のメソッドはクエリセットを返します。 逆に同じメソッドをクエリセットについて呼び出すこともでき、そうすると新しいクエリセットが返ります。 よって、つなげることで、メソッドの返すクエリセットを組み合わせることができます：
+
+>>> Post.objects.filter(published_date__lte=timezone.now()).order_by('published_date')
+<QuerySet [<Post: Post number 2>, <Post: My 3rd post!>, <Post: 4th title of post>, <Post: Sample title>]>
+クエリセットをつなげるのは本当に強力です。つなげていくことでとても複雑なクエリも書くことが出来ます。
+
+いいですね！次の章への準備は万端ですね！このプロンプトを閉じるには、以下のようにします。
+
+command-line
+>>> exit()
+$
