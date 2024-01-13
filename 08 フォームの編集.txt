@@ -1,0 +1,62 @@
+今、私たちは新しいフォームを追加する方法を知っています。 しかし既存のデータを編集するためはどうすれば良いのでしょうか? それは先ほど行ったことと非常に似ています。 すぐにいくつかの重要なものを作成してみましょう。 （もしわからない場合、コーチに尋ねるか、もしくはすでに手順をカバーしているので、前の章を見てください）
+
+blog/templates/blog/post_detail.html をエディタで開いて次の行を追加します
+
+blog/templates/blog/post_detail.html
+<a class="btn btn-default" href="{% url 'post_edit' pk=post.pk %}"><span class="glyphicon glyphicon-pencil"></span></a>
+テンプレートは次のようになります:
+
+blog/templates/blog/post_detail.html
+{% extends 'blog/base.html' %}
+
+{% block content %}
+    <div class="post">
+        {% if post.published_date %}
+            <div class="date">
+                {{ post.published_date }}
+            </div>
+        {% endif %}
+        <a class="btn btn-default" href="{% url 'post_edit' pk=post.pk %}"><span class="glyphicon glyphicon-pencil"></span></a>
+        <h2>{{ post.title }}</h2>
+        <p>{{ post.text|linebreaksbr }}</p>
+    </div>
+{% endblock %}
+blog/urls.pyをエディタで開き、次の行を追加します。
+
+blog/urls.py
+    path('post/<int:pk>/edit/', views.post_edit, name='post_edit'),
+テンプレート blog/templates/blog/post_edit.html を再利用します。そして残るはビューです。
+
+blog/views.py をエディタで開いて次の内容をファイルの最後に追加します：
+
+blog/views.py
+def post_edit(request, pk):
+    post = get_object_or_404(Post, pk=pk)
+    if request.method == "POST":
+        form = PostForm(request.POST, instance=post)
+        if form.is_valid():
+            post = form.save(commit=False)
+            post.author = request.user
+            post.published_date = timezone.now()
+            post.save()
+            return redirect('post_detail', pk=post.pk)
+    else:
+        form = PostForm(instance=post)
+    return render(request, 'blog/post_edit.html', {'form': form})
+post_new とほとんど同じに見えますか? しかし完全に同じではありません。 まず urls から追加の pk パラメータを渡します。 次に編集したいPost モデルを get_object_or_404(Post, pk=pk) で取得し、フォームを作るときは以下の2つのケースのようにそのポストをinstance（インスタンス）として渡します。フォームを保存するときは…
+
+blog/views.py
+form = PostForm(request.POST, instance=post)
+…このポストを編集するためにただフォームを開く場合は:
+
+blog/views.py
+form = PostForm(instance=post)
+よし、ちゃんと動くか試してみましょう！post_detail ページにいきましょう。そこの右上に [編集] ボタンがあるはずです：
+
+クリックするとブログ記事のフォームが表示されると思います：
+
+あとはお気軽にタイトルやテキストを変更して保存してください！
+
+おめでとう！アプリケーションが完成しました。
+
+Djangoのフォームについてもっと知りたい場合、Djangoのドキュメントを読んでください。https://docs.djangoproject.com/ja/3.2/topics/forms/

@@ -1,0 +1,11 @@
+lates/blog/post_detail.html をエディタで開いて次の行を見つけてください：
+
+blog/templates/blog/post_detail.html
+<a class="btn btn-default" href="{% url 'post_edit' pk=post.pk %}"><span class="glyphicon glyphicon-pencil"></span></a>
+以下のように変更してください：
+
+blog/templates/blog/post_detail.html
+{% if user.is_authenticated %}
+     <a class="btn btn-default" href="{% url 'post_edit' pk=post.pk %}"><span class="glyphicon glyphicon-pencil"></span></a>
+{% endif %}
+あなたはログインしている可能性が高いので、ページを更新しても、何も変わらないかもしれません。 ただし、別のブラウザやシークレットウィンドウ（Windows Edgeでは「InPrivate」と呼ばれます）でページを読み込むと、リンクが表示されず、アイコンも表示されないでしょう！

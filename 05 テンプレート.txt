@@ -1,0 +1,27 @@
+blog/templates/blogディレクトリにpost_edit.htmlファイルを作り、エディタで開きましょう。フォームを動かすにはいくつかやることがあります。
+
+-フォームを表示する必要があります。 私たちは（例えば）{{ form.as_p }} でこれを行うことができます。
+-上記の行は HTMLのformタグでラップする必要があります：<form method="POST">...</form>
+-Save ボタンが必要です。これをHTMLのbuttonタグで行います：<button type="submit">Save</button>
+-最後に<form ...> タグの開始直後に、 {% csrf_token %}を追加する必要があります。 フォームをセキュアにするためこれは非常に重要です！ これを忘れると、Djangoはフォームを保存しようとすると文句を言うでしょう：
+
+では、post_edit.html のHTMLがどのようになるか見てみましょう:
+
+blog/templates/blog/post_edit.html
+{% extends 'blog/base.html' %}
+
+{% block content %}
+    <h2>New post</h2>
+    <form method="POST" class="post-form">{% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="save btn btn-default">Save</button>
+    </form>
+{% endblock %}
+更新をしてみましょう。やった！フォームが表示されます。
+
+ちょっと待ってみて下さい。title と text フィールドに何か入力して保存するとどうなりますか？
+
+何も起きません！もう一度同じページに戻りテキストはどこかに行ってしまいました… そして新しい投稿は追加されていません。何がいけなかったのでしょうか？
+
+答えは: 何も間違ってない、です。ビュー でもう少し作業を行う必要があります.
+

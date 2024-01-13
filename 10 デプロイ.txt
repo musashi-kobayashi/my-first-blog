@@ -1,0 +1,18 @@
+ではPythonAnywhere上で動作するかを確認しましょう。再度デプロイします。
+
+まず、Githubにあなたの新しく書いたコードをCommitして、Pushしてみましょう。
+command-line
+$ git status
+$ git add --all .
+$ git status
+$ git commit -m "Added views to create/edit blog post inside the site."
+$ git push
+それから、PythonAnywhereのbashコンソールで：
+PythonAnywhere command-line
+$ cd ~/<your-pythonanywhere-domain>.pythonanywhere.com
+$ git pull
+[...]
+(<your-pythonanywhere-domain>の部分を、自分の実際のPythonAnywhereのサブドメイン名に山カッコをはずして置き換えることを忘れずに)
+
+最後に、Webページ に飛んで（コンソールの右上のメニューボタンを使ってもいいですね）それから Reload を押しましょう。 変更を見るためにあなたのブログ https://subdomain.pythonanywhere.com を再読み込みしましょう。
+うまくいってるはずです！おめでとう :)

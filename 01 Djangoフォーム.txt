@@ -1,0 +1,37 @@
+Djangoフォーム
+私たちのWebサイトで最終的にやりたいことは、記事を追加したり編集したりするためのよい方法を作ることです。 Django adminはかなりいいですが、カスタマイズしたりかわいくいい感じにするのはちょっと大変です。 フォーム によってインターフェイスを完璧にコントロールできるようになります。想像するほとんど全てのことができます！
+
+Djangoフォームのよいところは、フォームをゼロから定義できたり、フォームの結果をモデルに保存できるModelFormを作れたりするところです。
+
+これはまさに私たちがやりたいことです：Postモデルのためのフォームを作ります。
+
+Djangoの他の重要なパーツと同様に、フォームは自身のファイルがあります: forms.py
+
+これはblogディレクトリの下にforms.pyの名前で作る必要があります。
+
+blog
+   └── forms.py
+このファイルをエディタで開き、次のコードを入力してください。
+
+blog/forms.py
+from django import forms
+
+from .models import Post
+
+class PostForm(forms.ModelForm):
+
+    class Meta:
+        model = Post
+        fields = ('title', 'text',)
+
+最初にDjangoのformsをインポート（from django import forms）し、Postモデルもインポート（from .models import Post）する必要があります。
+
+PostFormとは何かと思うかもしれませんが、これはフォームの名前です。 このフォームが ModelForm の一種だとDjangoに伝える必要があります (Djangoが私たちのためにいくつか魔法をかけられるように)。forms.ModelFormがその役割を果たします。
+
+次にclass Metaですが、ここでDjangoにフォームを作るときにどのモデルを使えばいいか (model = Post) を伝えます。
+
+最後にフォームのフィールドに何を置くか書きます。 ここでは、私たちはtitle（タイトル）と text（本文）のみをフォームで使用します。 author は現在ログインしている人（あなた）です。 created_date は（コードによって）自動的に記事を書いた日時が設定されます。
+
+ひとまずこれでおしまいです！あとはフォームをビューで使い、それをテンプレート内に表示しさえすればいいです。
+
+もう一度、ページへのリンク、URL、ビューとテンプレートを作ります。

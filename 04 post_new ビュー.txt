@@ -1,0 +1,12 @@
+blog/views.pyをエディタで開き、fromの行の後に次の内容を追加してみましょう。
+
+blog/views.py
+from .forms import PostForm
+その後にビューを追加します。
+
+blog/views.py
+def post_new(request):
+    form = PostForm()
+    return render(request, 'blog/post_edit.html', {'form': form})
+
+Postフォームを新しく作るには、PostForm()を呼び出し、それをテンプレートに渡す必要があります。 あとでこの ビュー に戻ってきますが、今はフォームのためのテンプレートをすぐに作ってしまいましょう。

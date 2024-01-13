@@ -1,0 +1,16 @@
+blog/urls.pyをエディタで開き、次の行を追加します。
+
+blog/urls.py
+path('post/new/', views.post_new, name='post_new'),
+すると最終的なコードは次のようになります:
+
+blog/urls.py
+from django.urls import path 
+from . import views
+
+urlpatterns = [
+    path('', views.post_list, name='post_list'),
+    path('post/<int:pk>/', views.post_detail, name='post_detail'),
+    path('post/new/', views.post_new, name='post_new'),
+]
+サイトをリロードした後、AttributeErrorが出ます。post_newビューの実装がないからです。ファイルに追加してみましょう。

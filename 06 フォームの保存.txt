@@ -1,0 +1,63 @@
+blog/views.py をもう一度エディタで開きます。現在の post_new ビューはこうなっています。
+
+blog/views.py
+def post_new(request):
+    form = PostForm()
+    return render(request, 'blog/post_edit.html', {'form': form})
+フォームを送信したとき、同じビューに戻されていましたが、このときrequest、もっと詳しくいうと request.POST にデータが追加されています (このPOSTという名前はブログ投稿 "post" とは関係ありません。このデータは送られてきたもの、というコトと関係しています) 。 HTMLファイルの <form> タグで、method="POST" という変数があったのを覚えていますか？ これによってフォームのすべてのフィールドは今 request.POST にあります。 POST という名前を何か別のものに変えることはできません (他に唯一の有効な method の値は GET ですが、その違いを説明する時間がありません) 。
+
+私たちの ビュー では、扱わなくてはならない２つの別々のシチュエーションがあります: １つ目は、最初にページにアクセスしてきた時で空白のフォームが必要な場合。２つ目はすべてのフォームデータが入力された状態でビューに戻ってくる場合です。 したがって条件分岐を追加する必要があります（そのためにifを使います）：
+
+blog/views.py
+if request.method == "POST":
+    [...]
+else:
+    form = PostForm()
+ドット [...] の部分を埋めていきましょう。 methodがPOSTの場合、フォームのデータを使ってPostFormを構築します。 私たちはそれを次のようにします：
+
+blog/views.py
+form = PostForm(request.POST)
+次にフォームの値が正しいかどうかをチェックします（すべての必須フィールドが設定され、不正な値が送信されないこと）。 form.is_valid() で行います。
+
+フォームをチェックして、フォームの値が有効であれば保存できます。
+
+blog/views.py
+if form.is_valid():
+    post = form.save(commit=False)
+    post.author = request.user
+    post.published_date = timezone.now()
+    post.save()
+基本的にここでは2つのことを行います。まず form.save でフォームを保存することと author を追加することです (PostForm 内に author フィールドがありませんし、このフィールドは必須です) 。 commit=False は Post モデルをまだ保存しないという意味です。保存前に author を追加したいので。 ほとんどの場合、commit=Falseなしでform.save()を使用しますが、この場合はそれを指定する必要があります。 post.save()は変更を保存し（作成者を追加しつつ）、新しいブログ投稿が作成されます！
+
+最後に、新しく作成された記事の post_detail ページを表示できれば良いですよね? そのために次のインポートを追加します:
+
+blog/views.py
+from django.shortcuts import redirect
+ファイルの先頭に追加します。これで新しく作成されたポストの post_detail ページに移動する処理を書けます。
+
+blog/views.py
+return redirect('post_detail', pk=post.pk)
+post_detail は移動したいビューの名前です。 この ビュー では pk 変数が必須であることを覚えていますか? ビューにそれを渡すため、pk=post.pkを使います。この post は新しく作られたブログポストです！
+
+ふー、たくさんのことを話してきましたが、そろそろ ビュー の全体がどんな感じか見てみたい頃じゃないでしょうか？
+
+blog/views.py
+def post_new(request):
+    if request.method == "POST":
+        form = PostForm(request.POST)
+        if form.is_valid():
+            post = form.save(commit=False)
+            post.author = request.user
+            post.published_date = timezone.now()
+            post.save()
+            return redirect('post_detail', pk=post.pk)
+    else:
+        form = PostForm()
+    return render(request, 'blog/post_edit.html', {'form': form})
+では動作確認してみましょう。 http://127.0.0.1:8000/post/new/ に行き、 title と text を追加し、保存すると…… じゃじゃーん！ 新しいブログ記事が追加され、post_detail にリダイレクトされます！
+
+ブログ記事を保存する前に公開日をセットしていることに気づいたかもしれません。後ほど、Django Girls Tutorial: Extensionsにて 公開ボタン を導入します。
+
+素晴らしい！
+
+最近までDjango adminを使ってきたので、システム上で今まだログイン状態かと思います。 いくつかの状況ではログアウト状態になることがあります(ブラウザを閉じる、DBを再起動するなど..)。 投稿を作成するときに、ログインユーザーがわからないというエラーが発生した場合は、管理ページhttp://127.0.0.1:8000/admin にアクセスして再度ログインしてください。 その問題は一時的に解決します。 メインチュートリアルの後 Homework: add security to your website! の章に恒久的な対策がありますので宿題として取り組んでみてください。
